@@ -1,0 +1,76 @@
+# Simple To-Do List App (Command Line)
+# Author: Your Name
+
+tasks = []
+
+def show_menu():
+    print("\n===== TO-DO LIST MENU =====")
+    print("1. View Tasks")
+    print("2. Add Task")
+    print("3. Update Task")
+    print("4. Delete Task")
+    print("5. Mark Task as Completed")
+    print("6. Exit")
+
+def view_tasks():
+    if not tasks:
+        print("\n✅ No tasks available.")
+    else:
+        print("\n📋 Your Tasks:")
+        for i, task in enumerate(tasks, start=1):
+            status = "✔" if task['done'] else "❌"
+            print(f"{i}. {task['title']} [{status}]")
+
+def add_task():
+    title = input("Enter task name: ")
+    tasks.append({"title": title, "done": False})
+    print("✅ Task added successfully!")
+
+def update_task():
+    view_tasks()
+    try:
+        task_no = int(input("Enter task number to update: ")) - 1
+        new_title = input("Enter new task name: ")
+        tasks[task_no]['title'] = new_title
+        print("✏ Task updated successfully!")
+    except (IndexError, ValueError):
+        print("❌ Invalid task number!")
+
+def delete_task():
+    view_tasks()
+    try:
+        task_no = int(input("Enter task number to delete: ")) - 1
+        removed = tasks.pop(task_no)
+        print(f"🗑 Task '{removed['title']}' deleted.")
+    except (IndexError, ValueError):
+        print("❌ Invalid task number!")
+
+def mark_completed():
+    view_tasks()
+    try:
+        task_no = int(input("Enter task number to mark as completed: ")) - 1
+        tasks[task_no]['done'] = True
+        print("✔ Task marked as completed!")
+    except (IndexError, ValueError):
+        print("❌ Invalid task number!")
+
+# Main Loop
+while True:
+    show_menu()
+    choice = input("Choose an option (1-6): ")
+
+    if choice == "1":
+        view_tasks()
+    elif choice == "2":
+        add_task()
+    elif choice == "3":
+        update_task()
+    elif choice == "4":
+        delete_task()
+    elif choice == "5":
+        mark_completed()
+    elif choice == "6":
+        print("👋 Exiting... Goodbye!")
+        break
+    else:
+        print("❌ Invalid choice! Please try again.")
